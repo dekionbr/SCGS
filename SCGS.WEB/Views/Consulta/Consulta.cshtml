@@ -1,0 +1,195 @@
+﻿@model List<SCGS.CORE.Entity.Consulta>
+@{
+    ViewBag.Title = "Consultas";
+}
+
+<div class="row">
+    <div class="col-lg-12">
+        <h1 class="page-header">
+            Consultas
+        </h1>
+        <ol class="breadcrumb">
+            <li>
+                <i class="fa fa-dashboard"></i><a href="/"> Principal</a>
+            </li>
+            <li class="active">
+                <i class="fa fa-bar-chart-o"></i>Consultas
+            </li>
+        </ol>
+    </div>
+</div>
+
+@using (Html.BeginForm("FiltroConsulta", "Consulta", FormMethod.Post))
+{
+    <label>Filtro Consulta</label>
+    <div class="row">
+        <div class=" col-md-2 form-group">
+            <input type="text" class="form-control date" name="dtde" id="dtde" maxlength="10"  placeholder="Data de..." />
+        </div>
+        <div class=" col-md-2 form-group">
+            <input type="text" class="form-control date" name="dtate" id="dtate" maxlength="10" placeholder="Data até..." />
+        </div>
+        <div class=" col-md-2 form-group">
+            <input type="submit" class="btn btn-primary form-group" value="Ok"/>
+        </div>
+    </div>
+        <div class="row">
+            <div class="col-md-4 form-group">
+                @Html.ActionLink("Agendar Nova Consulta", "AgendamentoConsulta", null, new { @class = "btn btn-success", @role = "button", @style = "width: 90%;" })
+            </div>
+        </div>
+}
+
+@if (Model.Count > 0)
+{
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="table-responsive scrollable">
+                <table class="table table-bordered table-hover" id="td-consulta">
+                    <thead>
+                        <tr>
+                            <th>Médico</th>
+                            <th>Usuário</th>
+                            <th>Data da Consulta</th>
+                            <th>Prioridade</th>
+                            <th>Confirmado</th>
+                            <th>Turno</th>
+                            <th>Opções</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var row in Model)
+                        {
+
+                            <tr>
+                                <td>@row.medico.Nome</td>
+                                <td>@row.Usuario.Nome</td>
+                                <td>@row.DataConsulta</td>
+                                <td>@row.Prioridade</td>
+                                @if (@row.Confirmado == false)
+                                {
+                                    <td style="color:red;">Não</td>
+                                }
+                                else
+                                {
+                                    <td style="color:blue;">Sim</td>
+
+                                }
+                                <td>@row.Turno</td>
+                                <td>
+                                    @Html.ActionLink("Cancelar Consulta", "CancelarConsulta", new { id = @row.Id }, new { @onclick = "return confirm('Deseja Cancelar essa consulta?');" })
+                                    <span>| </span>
+                                    @Html.ActionLink("Confirmar Consulta", "ConfirmarConsulta", new { id = @row.Id }, new { @onclick = "return confirm('Deseja confirmar essa consulta?');" })
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+}
+else
+{
+
+    <div class="row">
+        <div class="col-lg-12">
+            <p>Nenhuma Consulta disponível</p>
+        </div>
+    </div>
+}
+
+
+@section scripts{
+    @Scripts.Render("~/bundles/datepicker")
+    @Scripts.Render("~/bundles/morris")
+
+
+    <script>
+
+        $(function () {
+            $('.date').datepicker({
+                format: 'dd/mm/yyyy'
+            });
+
+
+        });
+
+
+
+        function filtrar() {
+            var dtde = $("#dtde").val();
+            var dtate = $("#dtate").val();
+      
+            $.ajax({
+                url: "/Consulta/FiltroConsulta/",
+                type: "post",
+                data: { "dtde": dtde, "dtate": dtate },
+                dataType: "json",
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
+
+                    alert('Error: ' + textStatus + " msg: " + errorThrown);
+                },
+
+                success: function (data, textStatus, XMLHttpRequest) {
+
+                    $("#td-consulta").empty();
+
+                    $("#td-consulta").append(
+                  "<table class='table table-bordered table-hover' id='td-consulta'>"
+                   + "<thead>"
+                       + "<tr>"
+                           + "<th>Médico</th>"
+                           + "<th>Usuário</th>"
+                           + "<th>Data da Consulta</th>"
+                           + "<th>Prioridade</th>"
+                           + "<th>Confirmado</th>"
+                           + "<th>Turno</th>"
+                           + "<th>Opções</th>"
+                       + "</tr>"
+                   + "</thead>"
+                   + "<tbody>");
+
+                    for (var i = 0; i < data.length; i++) {
+
+                        $("#td-consulta").append(
+                                    "<tr>"
+                               + "<td>" + data[i].medico.Nome + "</td>"
+                               + "<td>" + data[i].Usuario.Nome + "</td>"
+                               + "<td>" + data[i].DataConsulta + "</td>"
+                               + "<td>" + data[i].Prioridade + "</td>"
+                               );
+
+                        if (data[i].Confirmado == 0) {
+
+                            $("#td-consulta").append("<td style='color:red;'>Não</td>");
+                        }
+                        else {
+                            $("#td-consulta").append("<td style='color:blue;'>Sim</td>");
+                        }
+
+                        $("#td-consulta").append(
+                      "<td>" + data[i].Turno + "</td>"
+                               + "<td>"
+                                   + "<a href='/Consulta/CancelarConsulta/"+ data[i].Id +"' >Cancelar Consulta</a>"
+                                 + "<span>| </span>"
+                                   + "<a href='/Consulta/ConfirmarConsulta/" + data[i].Id +"' >Confirmar Consulta</a>"
+                              + "</td>"
+                              + "</tr>");
+                    }
+
+                    $("#td-consulta").append( "</tbody></table>")
+
+
+
+
+                }
+            });
+
+            }
+
+        
+    </script>
+
+}

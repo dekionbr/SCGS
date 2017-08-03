@@ -1,0 +1,53 @@
+﻿
+@{
+    ViewBag.Title = "Login";
+}
+
+<div class="container">
+
+    @using (Html.BeginForm("Index", "Login", FormMethod.Post, new { @class = "form-signin" }))
+    {
+        <h2 class="form-signin-heading">Acesso ao sistema</h2>
+        <label for="inputEmail" class="sr-only">Matricula</label>
+        <input type="text" id="matricula" class="form-control" name="matricula" placeholder="Matricula" required autofocus>
+        <label for="inputPassword" class="sr-only">Senha</label>
+        <input type="password" id="senha" class="form-control" name="senha" placeholder="Senha" required>
+        <div class="checkbox">
+            <label>
+                <input type="checkbox" name="remember" id="remember" value="remember-me"> Manter Conectado
+            </label>
+        </div>
+        <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+    }
+
+
+</div> <!-- /container -->
+
+@section scripts{
+    @Scripts.Render("~/bundles/morris")
+    <script>
+        $(function () {
+            var $form = $("form");
+
+            $form.submit(function (e) {
+                e.preventDefault();
+
+                var url = $(this).attr("action");
+                var data = $(this).serialize();
+
+                $.ajax({
+                    type: "POST",
+                    url: url,
+                    data: data, // serializes the form's elements.
+                    success: function (data) {
+                        if (data.IsConectado) {
+                            window.location = data.Redirect;
+                        } else {
+                            alert(data.Mensagem);
+                        }
+                    }
+                });
+            });
+        });
+    </script>
+}

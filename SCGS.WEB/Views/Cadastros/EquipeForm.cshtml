@@ -1,0 +1,132 @@
+﻿@model SCGS.WEB.Models.EquipeModel
+@using SCGS.CORE.Entity
+@using SCGS.WEB.Helpers
+
+@{
+    ViewBag.Title = "Equipe";
+
+}
+
+<div class="row">
+    <div class="col-lg-12">
+        <h1 class="page-header">
+            Cadastro de Equipe
+        </h1>
+        <ol class="breadcrumb">
+            <li>
+                <i class="fa fa-dashboard"></i><a href="/"> Principal</a>
+            </li>
+            <li>
+                <i class="fa fa-bar-chart-o"></i><a href="Equipes">Equipe</a>
+            </li>
+            <li class="active">
+                <i class="fa fa-bar-chart-o"></i>Cadastro de Equipe
+            </li>
+        </ol>
+    </div>
+</div>
+
+@using (Html.BeginForm("SalvarEquipe", "Cadastros", FormMethod.Post))
+{
+    <fieldset>
+        <legend>Dados da Equipe</legend>
+        <div class="row">
+            @Html.HiddenFor(a => a.equipe.Id)
+            <div class="col-lg-6">
+                @Html.MyTextBoxFor(a => a.equipe.Nome, "Nome","Digite o nome" )
+                <br />
+            </div>
+            <div class="col-lg-6">
+                @Html.MyTextBoxFor(a => a.equipe.Descricao, "Descrição", "Digite a descrição")
+                <br />
+            </div>
+            <div class="col-lg-6">
+                @Html.MyDropDownListForEntity(x => x.enfermeirochefe, (List<SelectListItem>)ViewBag.Enfermeiros, "Enfermeiro", "Selecione um Enfermeiro")
+                <br />
+            </div>
+            <div class="col-lg-6">
+                @Html.MyDropDownListForEntity(x => x.enfermeirotecnico, (List<SelectListItem>)ViewBag.Tecnicos, "Técnico de enfermagem", "Selecione um técnico")
+                <br />
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-6">
+                @Html.MyDropDownListForEntity(x => x.medico, (List<SelectListItem>)ViewBag.Medicos, "Médico", "Selecione um médico")
+                <br />
+            </div>
+        </div>
+        <br />
+    </fieldset>
+    <div class="row">
+        <div class="col-lg-3">
+            <input type="submit" value="salvar" class="btn btn-primary" style="width:100%;" />
+        </div>
+    </div>
+}
+
+
+<br />
+
+<fieldset>
+    <legend>Micro Áreas</legend>
+
+    @using (Html.BeginForm("AddMicroAreaEquipe", "Cadastros", FormMethod.Post))
+    {
+        <div class="row">
+            <div class="col-lg-6">
+                @Html.MyDropDownListForEntity(x => x.microarea, (List<SelectListItem>)ViewBag.MicroAreas, "Micro Área", "Selecione uma micro area")
+                <br />
+            </div>
+            <div class="col-lg-3">
+                <input type="submit" class="btn btn-success" style="width:100%;" value="Adicionar">
+            </div>
+        </div>
+        <br />
+
+        var microareas = (List<MicroArea>)ViewBag.MicroAreaIn;
+        if (microareas.Count > 0)
+        {
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="table-responsive table" style="height: 150px; overflow: scroll;">
+                        <table class="table table-bordered table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Descrição</th>
+                                    <th>Agente</th>
+                                    <th>Opções</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var row in microareas)
+                                {
+                                    <tr>
+                                        <td>@row.Descricao</td>
+                                        <td>@row.Equipe.Nome</td>
+                                        <td>
+                                            @Html.ActionLink("Remover", "RemoverMicroArea", new { id = @row.Id })
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        }
+        else
+        {
+
+            <div class="row">
+                <div class="col-lg-12">
+                    <p>Nenhuma Micro Área</p>
+                </div>
+            </div>
+        }
+
+    }
+</fieldset>
+
+@section scripts{
+    @Scripts.Render("~/bundles/morris")
+}

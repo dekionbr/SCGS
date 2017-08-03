@@ -1,0 +1,100 @@
+﻿@model SCGS.CORE.Entity.Estoque
+@using SCGS.WEB.Helpers
+@{
+    ViewBag.Title = "Cadastro de Medicamento";
+}
+
+<div class="row">
+    <div class="col-lg-12">
+        <h1 class="page-header">
+            Cadastro de Item Hospitalar
+        </h1>
+        <ol class="breadcrumb">
+            <li>
+                <i class="fa fa-dashboard"></i><a href="/"> Principal</a>
+            </li>
+            <li>
+                <i class="fa fa-bar-chart-o"></i><a href="Estoque">Estoque de Item Hospitalar</a>
+            </li>
+            <li class="active">
+                <i class="fa fa-bar-chart-o"></i>Cadastro de Item Hospitalar
+            </li>
+        </ol>
+    </div>
+</div>
+
+@using (Html.BeginForm("SalvarEstoque", "Estoque", FormMethod.Post))
+{
+    <fieldset>
+        <legend>Dados do Item </legend>
+        <div class="row">
+            <div class="col-lg-6">
+                @Html.HiddenFor(a => a.Id)
+                @Html.MyTextBoxFor(a => a.Nome, "Nome", "Digite o nome")
+                <br />
+            </div>
+            <div class="col-lg-6">
+                @Html.MyTextBoxFor(a => a.Descricao, "Descrição", "Digite a descrição")
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-3">
+                @Html.MyTextBoxFor(a => a.Quantidade, "Quantidade", "Digite a quantidade")
+            </div>
+            <div class="col-lg-3">
+                @Html.MyTextBoxFor(a => a.EstoqueMinimo, "Minima", "Digite a quantidade Minima")
+            </div>
+                <div class="col-lg-6">
+                    @Html.MyTextBoxFor(a => a.Fabricante, "Fabricante", "Digite o nome do Fabricante")
+                    <br />  
+                </div>
+            </div>
+        <div class="row">
+            <div class="col-lg-6">
+                @Html.MyTextBoxFor(a => a.DataValidade, "Data de Validade", "Digite a data de validade", new { @class= "form-control date" })
+                <br />
+            </div>
+            <div class="col-lg-6">
+                @Html.MyTextBoxFor(a => a.CodigoLote, "Lote", "Digite o código do lote")
+                <br />
+            </div>
+        </div>
+        <br />
+        <div class="row">
+            <div class="col-lg-6">
+                @Html.MyDropDownListFor(a => a.TipoEstoque, "Tipo de item", "Selecione um tipo de item")
+                <br />
+            </div>
+            <div class="col-lg-6">
+                @Html.MyTextBoxFor(a => a.Fornecedor, "Fornecedor", "Digite a nome do Fornecedor")
+                <br />
+            </div>
+    </div>
+    </fieldset>
+
+<div class="row">
+        <div class="col-lg-3">
+            <input class="btn btn-primary" style="width:90%;" value="Salvar" type="submit" />
+        </div>
+    </div>
+
+
+}
+
+@section scripts{
+    @Scripts.Render("~/bundles/morris")
+    @Scripts.Render("~/bundles/datepicker")
+
+
+    <script>
+
+        $(function () {
+            $('.date').datepicker({
+                format: 'dd/mm/yyyy'
+            });
+
+
+        });
+
+    </script>
+}

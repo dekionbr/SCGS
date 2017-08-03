@@ -1,0 +1,139 @@
+﻿@model List<SCGS.CORE.Entity.Usuario>
+
+@{
+    ViewBag.Title = "Consulta de Usuario";
+}
+
+<div class="row">
+    <div class="col-lg-12">
+        <h1 class="page-header">
+            Consulta de Usuário
+        </h1>
+        <ol class="breadcrumb">
+            <li>
+                <a href="/">Principal</a>
+            </li>
+            <li class="active">
+                Consulta de Usuário
+            </li>
+        </ol>
+    </div>
+</div>
+<div class="row">
+    <div class="col-lg-2 form-group">
+        <select id="campo" class="form-control">
+            <option>Nome</option>
+            <option>RG</option>
+            <option>CPF</option>
+        </select>
+    </div>
+    <div class="col-lg-6 form-group">
+        <input type="text" class="form-control" onkeyup="buscarUsuario()" id="valor" placeholder="Pesquisa de Usuário/Paciente" />
+    </div>
+    <div class="col-lg-2 form-group">
+        <input type="submit" style="width:100%;" onclick="buscarUsuario()" class="btn btn-primary" value="Pesquisar" />
+    </div>
+</div>
+
+<div class="row">
+    <form action="UsuarioForm">
+        <div class="col-lg-4">
+            <input type="submit" style="width:100%;" class="btn btn-primary" value="Novo" />
+        </div>
+    </form>
+</div>
+<br/>
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="table-responsive table scrollable">
+                <table class="table table-bordered table-hover" id="usuarios">
+                    <thead>
+                        <tr>
+                            <th>Nome</th>
+                            <th>RG</th>
+                            <th>CPF</th>
+                            <th>Data Nascimento</th>
+                            <th>Opções</th>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    @section scripts{
+
+
+
+        <script>
+
+
+
+            function buscarUsuario() {
+                var campo = $("#campo").val();
+                var valor = $("#valor").val();
+                $.ajax({
+                    url: "/Consulta/PesquisarUsuario/",
+                    type: "post",
+                    data: { "campo": campo, "valor": valor },
+                    dataType: "json",
+                    error: function (XMLHttpRequest, textStatus, errorThrown) {
+
+                        alert('Error: ' + textStatus + " msg: " + errorThrown);
+                    },
+
+                    success: function (data, textStatus, XMLHttpRequest) {
+                        $("#usuarios").empty();
+                        $("#usuarios").append(
+                                   +"<table class='table table-bordered table-hover'>"
+                                        + "<thead>"
+                                            + "<tr>"
+                                                + "<th>Nome</th>"
+                                                + "<th>RG</th>"
+                                                + "<th>CPF</th>"
+                                                + "<th>Data Nascimento</th>"
+                                                + "<th>Opções</th>"
+                                            + "</tr>"
+                                                + "</thead>"
+                                                 + "<tbody>"
+
+                             );
+
+                        for (var i = 0; i < data.length; i++) {
+                            $("#usuarios").append(
+                                "<tr>"
+                                + "<td>" + data[i].Nome + "</td>"
+                                + "<td>" + data[i].RG + "</td>"
+                                + "<td>" + data[i].CPF + "</td>"
+                                + "<td>" + data[i].DataNascimento + "</td>"
+                                + "<td>"
+                                + "<a href='/Cadastros/EditarUsuario/" + data[i].Id + "'>" + "Editar</a>"
+                                 + "            <span>| </span>"
+                                + "<a href='/Cadastros/DeletarUsuario/" + data[i].Id + "' onclick =\"return confirm('Deseja Realmente deletar esse registro?');\" >" + "Excluir</a>"
+                                + "</td>"
+                              + "</tr>"
+                              );
+                        }
+
+                        $("#usuarios").append(
+                             "</tbody>"
+                            + "</table>");
+
+                    }
+
+
+                });
+
+
+            }
+
+        </script>
+
+
+
+    }
+
+
+
+
+

@@ -1,0 +1,324 @@
+﻿@model SCGS.WEB.Models.UsuarioModel
+@using SCGS.WEB.Helpers
+
+
+@{
+    ViewBag.Title = "Usuario";
+}
+
+<div class="row">
+    <div class="col-lg-12">
+        <h1 class="page-header">
+            Cadastro de Usuario
+        </h1>
+        <ol class="breadcrumb">
+            <li>
+                <i class="fa fa-dashboard"></i><a href="/"> Principal</a>
+            </li>
+            <li>
+                <i class="fa fa-bar-chart-o"></i><a href="Usuarios">Usuario</a>
+            </li>
+            <li class="active">
+                <i class="fa fa-bar-chart-o"></i>Cadastro de Usuario
+            </li>
+        </ol>
+    </div>
+</div>
+
+@using (Html.BeginForm("SalvarUsuario", "Cadastros", FormMethod.Post))
+{
+<fieldset>
+    <legend>Dados Pessoais</legend>
+    <div class="row">
+        <div class="col-lg-6">
+            @Html.HiddenFor(a => a.usuario.Id, new {@id= "idusuario" })
+            @Html.HiddenFor(a => a.usuario.Endereco.Id)
+               @Html.MyTextBoxFor(a => a.usuario.Nome, "Nome", "Digite o nome")
+            <br />
+        </div>
+        <div class="col-lg-6">
+            @Html.MyTextBoxFor(a => a.usuario.DataNascimento, "Data de Nascimento", "Digite a data de nascimento", new { @class = "date form-control" })
+            <br />
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-6">
+            @Html.MyTextBoxFor(a => a.usuario.RG, "RG", "Digite o RG")
+            <br />
+        </div>
+        <div class="col-lg-6">
+            @Html.MyTextBoxFor(a => a.usuario.CPF, "CPF", "Digite o cpf")
+            <br />
+        </div>
+    </div>
+    <br />
+</fieldset>
+<fieldset>
+    <legend>Endereço</legend>
+    <div class="row">
+        <div class="col-lg-6">
+            @Html.MyTextBoxFor(a => a.usuario.Endereco.Logradouro, "Logradouro", "Digite o logradouro")
+            <br />
+        </div>
+        <div class="col-lg-6">
+        @Html.MyDropDownListFor(a => a.usuario.Endereco.TipoLogradouro, "Tipo Logradouro", "Selecione um logradouro")
+            <br />
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-6">
+            @Html.MyTextBoxFor(a => a.usuario.Endereco.Numero, "Numero", "Digite o numero")
+            <br />
+        </div>
+        <div class="col-lg-6">
+            @Html.MyTextBoxFor(a => a.usuario.Endereco.CEP, "CEP", "Digite o CEP")
+            <br />
+    </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-6">
+            @Html.MyDropDownListForEntity(a => a.Estado, (List<SelectListItem>)ViewBag.Estados, "Estado", "Selecione um Estado")
+         </div>
+        <div class="col-lg-6">
+            @Html.MyDropDownListForEntity(a => a.Cidade, (List<SelectListItem>)ViewBag.Cidades, "Cidade", "")
+      </div>
+    </div>
+
+    <br />
+</fieldset>
+
+    <div class="row">
+        <div class="col-lg-3">
+            <input class="btn btn-primary" style="width:90%;" value="Salvar" type="submit" />
+        </div>
+    </div>
+
+
+
+<fieldset>
+    <legend>Contato</legend>
+    <div class="row">
+        <div class="col-lg-4">
+            @Html.MyDropDownListFor(a => a.contato.Tipo, "Tipo Contato", "Selecione um tipo de contato", new { @id = "tipoContato" })
+        </div>
+        <div class="col-lg-4">
+            @Html.MyTextBoxFor(a => a.contato.Valor, "Contato", "Digite o contato", new { @id = "valor" })
+        </div>
+        <div class="col-lg-2">
+            <input class="btn btn-primary" style="width:90%;" value="Adicionar Contato" type="button" onclick="salvarContato();" />
+       </div>
+    </div>
+    <br />
+    <div class="row">
+        <div class="col-lg-12">
+             <div class="row">
+                <div class="col-lg-12">
+                    <div class="table-responsive scrollable" style="height:150px;">
+                        <table class="table table-bordered table-hover" id="contatos">
+                            <thead>
+                                <tr>
+                                    <th>Tipo Contato</th>
+                                    <th>Contato</th>
+                                     <th>Opções</th>
+                                </tr>
+                            </thead>
+@if (Model.contatoList.Count > 0 && Model.usuario.Id != 0)
+{
+                            <tbody>
+                                @foreach (var row in Model.contatoList)
+                                {
+
+                                    <tr>
+                                        <td>@row.Tipo</td>
+                                        <td>@row.Valor</td>
+                                        <td id="selecionar">
+                                            <a href="#" onclick="exluirContato('@row.Id'); return false">Excluir</a>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+}
+
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+          
+
+        </div>
+    </div>
+</fieldset>
+
+}
+
+@section scripts{
+    @Scripts.Render("~/bundles/datepicker")
+
+
+<script>
+
+
+
+
+
+    $(document).ready(function () {
+
+
+
+        $('.date').datepicker({
+            format: 'dd/mm/yyyy'
+        });
+
+
+
+
+
+        //Coloque aqui o id do primeiro dropdownlist
+        $('#Estado').change(function () {
+            //obtém o valor selecionado
+            var id = $(this).find(":selected").val();
+            $.ajax({
+                url: "/Cadastros/PreencherCidades/" + id,
+                type: "get",
+                dataType: "json",
+                success: function (data) {
+                    $("#Cidade").empty();
+                    $("#Cidade").append('<option value>Selecione uma Cidade</option>');
+                    $.each(data, function (index, element) {
+                        $("#Cidade").append('<option value="' + element.Id + '">' + element.Nome+ '</option>');
+                    });
+                }
+            });
+        });
+
+    });
+
+
+
+    function salvarContato() {
+
+        var idusuario = $("#idusuario").val();
+        var tipo = $("#tipoContato").val();
+        var valor = $("#valor").val();
+
+
+        $.ajax({
+            url: "/Cadastros/SalvarContatoUsuario/",
+            type: "post",
+            data: { "idusuario": idusuario, "tipo": tipo, "valor": valor },
+            dataType: "json",
+            error: function (XMLHttpRequest, textStatus, errorThrown) {
+
+                alert('Error: ' + textStatus + " msg: " + errorThrown);
+            },
+
+            success: function (data, textStatus, XMLHttpRequest) {
+                $("#contatos").empty();
+                $("#contatos").append(
+                         +"<table class='table table-bordered table-hover'>"
+                                + "<thead>"
+                                    + "<tr>"
+                                        + "<th>Tipo Contato</th>"
+                                        + "<th>Contato</th>"
+                                        + "<th>Opções</th>"
+                                    + "</tr>"
+                                        + "</thead>"
+                                         + "<tbody>"
+
+                     );
+
+                for (var i = 0; i < data.length; i++) {
+                    $("#contatos").append(
+                        "<tr>"
+                        + "<td>" + data[i].TipoContato+ "</td>"
+                        + "<td>" + data[i].Contato + "</td>"
+                        + "<td>"
+                        +"<a href='#' onclick='exluirContato("+ data[i].Id +")'>Excluir</a>"
+                        + "</td>"
+                        + "</tr>"
+                      );
+                }
+
+                $("#contatos").append(
+                     "</tbody>"
+                    + "</table>");
+
+            }
+
+
+        });
+
+    }
+
+
+
+
+
+
+
+
+
+    function exluirContato(id) {
+        var idcontato = id;
+        $.ajax({
+            url: "/Cadastros/DeletarContatoUsuario/",
+            type: "post",
+            data: { "idcontato": idcontato },
+            dataType: "json",
+            error: function (XMLHttpRequest, textStatus, errorThrown) {
+
+                alert('Error: ' + textStatus + " msg: " + errorThrown);
+            },
+
+            success: function (data, textStatus, XMLHttpRequest) {
+                $("#contatos").empty();
+                $("#contatos").append(
+                         +"<table class='table table-bordered table-hover'>"
+                                + "<thead>"
+                                    + "<tr>"
+                                        + "<th>Tipo Contato</th>"
+                                        + "<th>Contato</th>"
+                                        + "<th>Opções</th>"
+                                    + "</tr>"
+                                        + "</thead>"
+                                         + "<tbody>"
+
+                     );
+
+                for (var i = 0; i < data.length; i++) {
+                    $("#contatos").append(
+                        "<tr>"
+                        + "<td>" + data[i].TipoContato + "</td>"
+                        + "<td>" + data[i].Contato + "</td>"
+                        + "<td>"
+                        + "<a href='#' onclick='exluirContato(" + data[i].Id + ")'>Exluir</a>"
+                        + "</td>"
+                        + "</tr>"
+                      );
+                }
+
+                $("#contatos").append(
+                     "</tbody>"
+                    + "</table>");
+
+            }
+
+
+        });
+
+    }
+
+
+
+
+
+
+
+
+
+</script>
+
+
+
+}

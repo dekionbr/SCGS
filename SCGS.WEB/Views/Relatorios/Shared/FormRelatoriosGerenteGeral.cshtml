@@ -1,0 +1,93 @@
+﻿@{
+    var unidades = ViewData["unidades"] as List<Unidade>;
+    var equipes = ViewData["equipes"] as List<Equipe>;
+    var funcionarios = ViewData["funcionarios"] as List<Funcionario>;
+}
+
+
+<div class="row">
+    @if (unidades.Count > 0)
+    {
+        <div class="col-lg-4">
+            <select class="form-control ui-auto-unidade" id="unidade">
+                <option value="">Selecione uma Unidade</option>
+
+                @foreach (var row in unidades)
+                {
+                    <option value="@row.Id">@row.Nome</option>
+                }
+            </select>
+        </div>
+    }
+
+    @if (equipes.Count > 0)
+    {
+        <div class="col-lg-4">
+            <select class="form-control ui-auto-unidade" id="equipe">
+
+                <option value="">Selecione a Equipe</option>
+
+                @foreach (var row in equipes)
+                {
+                    <option value="@row.Id">@row.Nome</option>
+
+                }
+            </select>
+        </div>
+    }
+
+    @if (funcionarios.Count > 0)
+    {
+        <div class="col-lg-4">
+            <select class="form-control ui-auto-unidade" id="funcionario">
+                <option value="">Selecione o Profissional</option>
+                @foreach (Funcionario row in funcionarios)
+                {
+
+                    if (row.TipoFuncionario == TipoFuncionario.Medico)
+                    {
+                        <option value="@row.Id">
+                            @("Dr(a) " + row.Nome)
+                        </option>
+                    }
+                    else
+                    {
+                        <option value="@row.Id">
+                            @row.Nome
+                        </option>
+                    }
+                }
+            </select>
+        </div>
+    }
+
+</div>
+
+<hr />
+
+<div class="row">
+    <div class="col-lg-4">
+        <input type="text" class="form-control date" placeholder="Data Inicial" id="dtini" />
+    </div>
+
+    <div class="col-lg-4 form-group">
+        <input type="text" class="form-control date" placeholder="Data Final" id="dtfim" />
+    </div>
+
+    <div class="col-lg-4 form-group">
+        <select class="form-control ui-autocomplete" id="corte" required>
+            <option value="">Corte</option>
+            <option value="0">Semanal</option>
+            <option value="1">Mensal</option>
+            <option value="2">Semestral</option>
+            <option value="3">Anual</option>
+        </select>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-1 col-lg-offset-11">
+        <input id="submit" type="button" class="btn btn-primary col-lg-12"  value="Visualizar" />
+    </div>
+</div>
+

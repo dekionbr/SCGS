@@ -1,0 +1,39 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>@ViewBag.Title - SISTEMA DE CADASTRO  GERAL DE SAÚDE</title>
+    <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+    <meta name="viewport" content="width=device-width" />
+    @Styles.Render("~/Content/css")
+    @Styles.Render("~/Content/datepicker")
+    
+    @Scripts.Render("~/bundles/modernizr")
+    <link href="@Url.Content("~/Content/Site.css")" rel="stylesheet" type="text/css" />
+</head>
+<body>
+    <div id="wrapper">
+
+        <!-- Navigation -->
+        <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            @Html.Partial("~/Views/Shared/_Top.cshtml")
+            
+            @Html.Partial("~/Views/Shared/_Menu.cshtml")
+          
+            <!-- /.navbar-collapse -->
+        </nav>
+
+        <div id="page-wrapper">
+            <div class="container-fluid">
+                @RenderBody()               
+            </div>
+        </div>
+    </div>
+    @Scripts.Render("~/bundles/jquery")
+    @*@Scripts.Render("~/bundles/jqueryui")
+    @Scripts.Render("~/bundles/jqueryval")*@
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
+</body>
+</html>

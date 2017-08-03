@@ -1,0 +1,94 @@
+﻿  <!-- ******MENU PRINCIPAL RESPONSIVO***** -->
+
+<div class="collapse navbar-collapse navbar-ex1-collapse">
+    <ul class="nav navbar-nav side-nav">
+        <li class="active">
+            <a href="@Url.Action("../Home/Index")"><i class="fa fa-fw fa-dashboard"></i>Dashboard</a>
+        </li>
+
+        @if (User.IsInRole(SCGS.CORE.Security.RoleManager.GERENTE))
+            {
+            <li>
+                <a href="#" data-toggle="collapse" data-target="#relatorios"><i class="fa fa-fw fa-bar-chart-o"></i>Relatórios <i class="fa fa-fw fa-caret-down"></i></a>
+                <ul id="relatorios" class="collapse">
+                    <li>
+                        <a href="@Url.Action("Endemias", "Relatorios")">Endemias</a>
+                    </li>
+                    <li>
+                        <a href="@Url.Action("Consultas", "Relatorios")">Consultas</a>
+                    </li>                 
+                </ul>
+            </li>
+        }
+
+        <li>
+            <!--<a href="javascript:;" data-toggle="collapse" data-target="#cadastros" aria-expanded="false"><i class="fa fa-fw fa-edit"></i>Cadastros <i class="fa fa-fw fa-caret-down"></i></a> -->
+            @if (User.IsInRole(SCGS.CORE.Security.RoleManager.AGENTE))
+            {
+                <a href="@Url.Action("Usuarios", "Cadastros")"><i class="fa fa-fw fa-user-md"></i>Usuarios</a>
+            }
+            else if (User.IsInRole(SCGS.CORE.Security.RoleManager.GERENTE))
+            {
+
+                <ul id="cadastros" class="collapse">
+                    <li>
+                        @Html.ActionLink("Funcionarios", "Funcionarios", "Cadastros")
+                    </li>
+                    @*<li>
+                            @Html.ActionLink("Usuários", "Usuarios", "Cadastros")
+                        </li>*@
+                    <li>
+                        @Html.ActionLink("Equipes", "Equipes", "Cadastros")
+                    </li>
+                    @if (User.IsInRole(SCGS.CORE.Security.RoleManager.GERENTE_GERAL))
+                    {
+                        <li>
+                            @Html.ActionLink("Unidades", "Unidades", "Cadastros")
+                        </li>
+                    }
+                    <li>
+                        @Html.ActionLink("Micro Áreas", "MicroArea", "Cadastros")
+                    </li>
+
+                </ul>
+            }
+        </li>
+        @if (User.IsInRole(SCGS.CORE.Security.RoleManager.AGENTE))
+        {
+            <li>
+                <a href="#" data-toggle="collapse" data-target="#atendimento" aria-expanded="false"><i class="fa fa-fw fa-edit"></i>Atendimento<i class="fa fa-fw fa-caret-down"></i></a>
+                <ul id="atendimento" class="collapse">
+                    <li>
+                        <a href="@Url.Action("Consulta", "Consulta")"><i class="fa fa-fw fa-stethoscope"></i>Consultas</a>
+                    </li>
+                    <li>
+                        <a href="@Url.Action("Prontuarios", "Prontuario")"><i class="fa fa-fw fa-clipboard"></i>Prontuarios</a>
+                    </li>
+                </ul>
+            </li>
+        }
+
+        @if (User.IsInRole(SCGS.CORE.Security.RoleManager.AGENTE) ||
+                    User.IsInRole(SCGS.CORE.Security.RoleManager.MEDICO))
+        {
+            <li>
+                <a href="@Url.Action("Patogeno", "Cadastros")"><i class="fa fa-fw fa-clipboard"></i>Patogenos</a>
+            </li>
+            if (User.IsInRole(SCGS.CORE.Security.RoleManager.AGENTE))
+            {
+                <li>
+                    <a href="@Url.Action("Pedido", "Estoque")"><i class="fa fa-fw fa-eyedropper"></i>Pedido Medicamento</a>
+                </li>
+            }
+        }
+        @if (User.IsInRole(SCGS.CORE.Security.RoleManager.FARMACEUTICO))
+        {
+            <li>
+                <a href="@Url.Action("Estoque", "Estoque")"><i class="fa fa-fw fa-medkit"></i>Estoque</a>
+            </li>
+        }
+        @*<li>
+                <a href="@Url.Action("Configuracao","Configuracoes")"><i class="fa fa-fw fa-cog"></i>Configurações </a>
+            </li>*@
+    </ul>
+</div>

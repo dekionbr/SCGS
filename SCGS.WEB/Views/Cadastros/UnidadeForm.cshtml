@@ -1,0 +1,125 @@
+﻿@model SCGS.WEB.Models.UnidadeModel
+@using SCGS.WEB.Helpers
+
+
+@{
+    ViewBag.Title = "Unidade";
+}
+
+<div class="row">
+    <div class="col-lg-12">
+        <h1 class="page-header">
+            Cadastro de Unidade
+        </h1>
+        <ol class="breadcrumb">
+            <li>
+                <i class="fa fa-dashboard"></i><a href="/">Principal</a>
+            </li>
+            <li>
+                <i class="fa fa-bar-chart-o"></i><a href="Unidades">Unidade</a>
+            </li>
+            <li class="active">
+                <i class="fa fa-bar-chart-o"></i>Cadastro de Unidade
+            </li>
+        </ol>
+    </div>
+</div>
+
+@using (Html.BeginForm("SalvarUnidade", "Cadastros", FormMethod.Post))
+{
+    <fieldset>
+        <legend>Dados da Unidade</legend>
+        <div class="row">
+            <div class="col-lg-6">
+                @Html.MyDropDownListForEntity(x => x.gerente, (List<SelectListItem>)ViewBag.Gerentes, "Gerente da Unidade", "Selecione um Gerente")
+            </div>
+            <div class="col-lg-6">
+                @Html.MyTextBoxFor(x => x.unidade.CNPJ, "CNPJ", "Digite o CNPJ")
+             </div>
+          </div>
+        <br />
+    </fieldset>
+
+    <fieldset>
+        <legend>Endereço da Unidade</legend>
+        <div class="row">
+            <div class="col-lg-6">
+                @Html.MyTextBoxFor(x => x.unidade.Logradouro, "Logradouro", "Digite o Logradouro")
+                <br />
+            </div>
+            <div class="col-lg-6">
+                @Html.MyDropDownListFor(x => x.unidade.TipoLogradouro, "Tipo Logradouro", "Selecione o Tipo de Logradouro")
+            </div>
+           </div>
+        <div class="row">
+            <div class="col-lg-6">
+                @Html.MyTextBoxFor(x => x.unidade.Numero, "Numero", "Digite o Numero")
+                <br />
+            </div>
+            <div class="col-lg-6">
+                @Html.MyTextBoxFor(x => x.unidade.CEP, "CEP", "Digite o Cep")
+                <br />
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-6">
+                @Html.MyDropDownListForEntity(x => x.estado, (List<SelectListItem>)ViewBag.Estados, "Estado", "Selecione um Estado")
+                <br />
+            </div>
+            <div class="col-lg-6">
+                @Html.MyDropDownListForEntity(x => x.cidade, (List<SelectListItem>)ViewBag.Cidades, "Cidade", " ")
+                <br />
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-6">
+                @Html.MyTextBoxFor(x => x.unidade.Complemento, "Complemento", "Digite o Complemento")
+           <br />
+            </div>
+            <div class="col-lg-6">
+                @Html.MyTextBoxFor(x => x.unidade.Bairro, "Bairro", "Digite o Bairro")
+                <br />
+            </div>
+        </div>
+        <br />
+     </fieldset>
+    <div class="row">
+        <div class="col-lg-3">
+            <input type="submit" class="btn btn-primary" style="width:100%;" value="Salvar" /> 
+           </div>
+    </div>
+
+}
+<br />
+
+
+
+
+@section scripts{
+    @Scripts.Render("~/bundles/morris")
+
+<script>
+    $(document).ready(function () {
+        //Coloque aqui o id do primeiro dropdownlist
+        $('#estado').change(function () {
+            //obtém o valor selecionado
+            var id = $(this).find(":selected").val();
+            $.ajax({
+                url: "/Cadastros/PreencherCidades/" + id,
+                type: "get",
+                dataType: "json",
+                success: function (data) {
+                    $("#cidade").empty();
+                    $("#cidade").append('<option value>Selecione uma Cidade</option>');
+                    $.each(data, function (index, element) {
+                        $("#cidade").append('<option value="' + element.Id + '">' + element.Nome + '</option>');
+                    });
+                }
+            });
+        });
+
+    });
+</script>
+
+
+}

@@ -1,0 +1,232 @@
+﻿@model SCGS.WEB.Models.FuncionarioModel
+@using SCGS.WEB.Helpers
+
+
+
+@{
+    ViewBag.Title = "Cadastro de Funcionário";
+}
+
+
+<div class="row">
+    <div class="col-lg-12">
+        <h1 class="page-header">
+            @ViewBag.Title
+        </h1>
+        <ol class="breadcrumb">
+            <li>
+                <a href="/">Principal</a>
+            </li>
+            <li>
+                <a href="Funcionarios">Funcionários</a>
+            </li>
+            <li class="active">
+                Cadastro de Funcionário
+            </li>
+        </ol>
+    </div>
+</div>
+
+
+@if (@TempData["msg"] != null)
+{
+    <div class="alert alert-success alert-dismissible" role="alert">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <strong>@TempData["msg"]</strong>
+    </div>
+}
+
+@using (Html.BeginForm("AddOrUpdateFuncionario", "Cadastros", FormMethod.Post))
+{
+
+    <fieldset>
+        <legend>Dados Pessoais</legend>
+        <div class="row">
+            <div class="col-lg-6">
+                @Html.HiddenFor(f => f.funcionario.Id, new { id = "idfuncionario" })
+                @Html.MyTextBoxFor(f => f.funcionario.Nome, "Nome", "Insira o nome completo")
+                <br />
+                @Html.MyTextBoxFor(f => f.funcionario.RG, "RG", "Insira o RG")
+                <br />
+                @Html.MyDropDownListFor(f => f.funcionario.TipoFuncionario, "Tipo Logradouro", "Selecione um tipo de Funcionário")
+                <br />
+                @Html.MyDropDownListFor(f => f.funcionario.CR.TipoCR, "Tipo CR", "Selecione um tipo de Registro")
+            </div>
+            <div class="col-lg-6">
+                @Html.MyTextBoxFor(f => f.funcionario.DataNascimento, "Data de Nascimento", "Insira a data de nascimento")
+                <br />
+                @Html.MyTextBoxFor(f => f.funcionario.CPF, "CPF", "Insira o CPF")
+                <br />
+                <div class="input-group">
+                    @Html.MyDropDownListForEntity(f => f.Equipe, (List<SelectListItem>)ViewBag.Equipes, "Equipe", "Selecione uma Equipe")
+                </div>
+                <br />
+                <div class="input-group">
+                    <span class="input-group-addon" id="lbl-registro">
+                        <label for="registro">Registro:</label>
+                    </span>
+                    <select id="registro" class="form-control">
+                        <option>Selecione o estado do registro</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+    </fieldset>
+    <br />
+    <fieldset>
+        <legend>Endereço</legend>
+        <div class="row">
+            <div class="col-lg-6">
+                @Html.MyDropDownListFor(f => f.funcionario.TipoLogradouro, "Tipo Logradouro", "Selecione um tipo de Logradouro")
+                <br />
+                @Html.MyTextBoxFor(f => f.funcionario.Numero, "Número", "Insira o Número")
+                <br />
+                @Html.MyDropDownListForEntity(f => f.Estado, (List<SelectListItem>)ViewBag.Estados, "Estado", "Selecione um Estado")
+                <br />
+                @Html.MyDropDownListForEntity(a => a.Cidade, (List<SelectListItem>)ViewBag.Cidades, "Cidade", "")
+            </div>
+            <div class="col-lg-6">
+                @Html.MyTextBoxFor(f => f.funcionario.Logradouro, "Logradouro", "Insira o Logradouro")
+                <br />
+                @Html.MyTextBoxFor(f => f.funcionario.CEP, "CEP", "Insira o CEP")
+                <br />
+                @Html.MyTextBoxFor(f => f.funcionario.Complemento, "Complemento", "Insira o Complemento")
+            </div>
+        </div>
+
+
+    </fieldset>
+    <br />
+
+    <fieldset>
+        <legend>Acesso ao Sistema</legend>
+        <div class="row">
+            <div class="col-lg-6">
+                <label for="senha">Senha de Acesso:</label>
+                <input id="senha" class="form-control" type="password" placeholder="Insira uma senha" />
+            </div>
+            <div class="col-lg-6">
+                <label for="comsenha">Confirmar Senha:</label>
+                <input id="comsenha" class="form-control" type="password" placeholder="Confirmar senha" />
+            </div>
+        </div>
+        <br />
+    </fieldset>
+
+
+    <div class="row">
+        <div class="col-lg-3">
+            <input class="btn btn-primary" style="width:90%;" value="Salvar" type="submit" />
+        </div>
+    </div>
+
+    <br />
+    <fieldset>
+        <legend>Contato</legend>
+
+        <div class="row">
+            <div class="col-lg-3">
+                <button class="btn btn-success" data-toggle="modal" data-target="#myModal">
+                    <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+                    Novo Contato
+                </button>
+            </div>
+        </div>
+
+        @Html.HiddenFor(a => a.contato.Id)
+        <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="gridSystemModalLabel">Cadastro de Contato</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="container-fluid">
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    @Html.MyDropDownListFor(a => a.contato.Tipo, "Tipo Contato", "Selecione...");
+                                </div>
+                                <div class="col-lg-6">
+                                    @Html.MyTextBoxFor(a => a.contato.Valor, "Contato", "Digite o contato")
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary" id="btnInserir">Salvar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <br />
+
+
+        @if (Model.contatos.Count > 0)
+        {
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-hover" id="tdcontato">
+                            <thead>
+                                <tr>
+                                    <th>Tipo Contato</th>
+                                    <th>Contato</th>
+                                    <th>Opções</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+
+
+                                @foreach (var row in Model.contatos)
+                                {
+
+                                    <tr>
+                                        <td>@row.Tipo</td>
+                                        <td>@row.Valor</td>
+                                        <td>
+                                            <button type="button" onclick="deleteContato(@row.Id.ToString())"  class="btn btn-danger btn-xs" title="Deletar campo">
+                                                <span class="glyphicon glyphicon-minus"></span>
+                                            </button>
+                                        </td>
+                                    </tr>
+
+                                }
+
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+        }
+        else
+        {
+
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-hover" id="tdcontato">
+                            <thead>
+                                <tr>
+                                    <th>Tipo Contato</th>
+                                    <th>Contato</th>
+                                    <th>Opções</th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        }
+
+    </fieldset>
+}
+@section scripts{
+       @Scripts.Render("~/bundles/morris")
+       @Scripts.Render("~/Script/funcionario")
+}

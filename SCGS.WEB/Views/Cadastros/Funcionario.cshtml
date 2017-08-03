@@ -1,0 +1,40 @@
+﻿@model SCGS.WEB.Models.FuncionarioModel
+
+@{
+    ViewBag.Title = "Consulta de Funcionário";
+}
+
+<div class="row">
+    <div class="col-lg-12">
+        <h1 class="page-header">
+            @ViewBag.Title
+        </h1>
+        <ol class="breadcrumb">
+            <li>
+                <a href="/">Principal</a>
+            </li>
+            <li>
+                <a href="Funcionarios">Funcionários</a>
+            </li>
+            <li class="active">Consulta de Funcionário
+            </li>
+        </ol>
+    </div>
+</div>
+@if (@TempData["msg"] != null)
+{
+    <div class="alert alert-success alert-dismissible" role="alert">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <strong>@TempData["msg"]</strong>
+    </div>
+}
+
+@using (Html.BeginForm("AddOrUpdateFuncionario", "Cadastros", FormMethod.Post))
+{
+    @Html.Partial("FuncionarioForm", Model)
+}
+
+@section scripts{
+    @Scripts.Render("~/bundles/morris")
+    @Scripts.Render("~/script/funcionario")
+}

@@ -1,0 +1,95 @@
+﻿@{
+    ViewBag.Title = "Estoque";
+}
+
+<div class="row">
+    <div class="col-lg-12">
+        <h1 class="page-header">
+            Relatório de Estoque
+        </h1>
+        <ol class="breadcrumb">
+            <li>
+                <i class="fa fa-dashboard"></i>Dashboard
+            </li>
+            <li>
+                <i class="fa fa-bar-chart-o"></i>Relatorios
+            </li>
+            <li class="active">
+                <i class="fa fa-comments"></i>Estoque
+            </li>
+        </ol>
+    </div>
+</div>
+
+
+<fieldset>
+    <legend>Itens Hospitalares retirados por período</legend>
+    <div class="row">
+        <div class="col-lg-3">
+            <input type="text" class="form-control date" placeholder="Data Inicial" id="dtini" />
+        </div>
+        <div class="col-lg-3 form-group">
+            <input type="text" class="form-control date" placeholder="Data Final" id="dtfim" />
+        </div>
+        <div class="col-lg-3 form-group">
+            <select class="form-control ui-autocomplete" id="corte">
+                <option value="">Corte</option>
+                <option value="0">Semanal</option>
+                <option value="1">Mensal</option>
+                <option value="2">Semestral</option>
+                <option value="3">Anual</option>
+            </select>
+        </div>
+
+        <div class="col-lg-3">
+            <div class="form-group">
+                <select class="form-control">
+                    <option value="0">SELECIONE UM FARMACEUTICO</option>
+                    @if (ViewBag.farmaceuticos != null)
+                {
+                var farmaceuticos = ViewBag.farmaceuticos as List<Funcionario>;
+
+                foreach (Funcionario f in farmaceuticos)
+                {
+                            <option value="@f.Id">@f.Nome</option>
+                }
+               }
+                </select>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-7">
+            <button class="btn btn-primary">Visualiza</button>
+        </div>
+    </div>
+    <p></p>
+
+</fieldset>
+
+
+<fieldset>
+    <legend>Listagem de produtos vencidos</legend>
+    <div class="row">
+        <div class="col-lg-3">
+            <input type="text" class="form-control date" placeholder="Data Inicial" id="dtini" />
+        </div>
+        <div class="col-lg-3 form-group">
+            <input type="text" class="form-control date" placeholder="Data Final" id="dtfim" />
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-7">
+            <button class="btn btn-primary">Visualiza</button>
+        </div>
+    </div>
+    <p></p>
+
+</fieldset>
+
+
+
+
+    @section scripts{
+        @Scripts.Render("~/bundles/morris")
+    }

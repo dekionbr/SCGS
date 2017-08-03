@@ -1,0 +1,270 @@
+﻿@model SCGS.CORE.Entity.Prontuario
+@using SCGS.WEB.Helpers
+@{
+    ViewBag.Title = "Prontuario";
+}
+
+<div class="row">
+    <div class="col-lg-12">
+        <h1 class="page-header">
+            Prontuario
+        </h1>
+        <ol class="breadcrumb">
+            <li>
+                <i class="fa fa-dashboard"></i><a href="/"> Principal</a>
+            </li>
+
+            <li>
+                <i class="fa fa-dashboard"></i><a href="/Prontuario/Prontuarios">Prontuarios</a>
+            </li>
+            <li class="active">
+                <i class="fa fa-bar-chart-o"></i>Prontuario
+            </li>
+        </ol>
+    </div>
+</div>
+
+@using (Html.BeginForm("SalvarProntuario", "Prontuario", FormMethod.Post))
+{ 
+    <fieldset>
+    <legend>Pesquisar de Peciente</legend>
+            <div class="row">
+                <div class="col-lg-3 form-group">
+                    <select id="campo" class="form-control">
+                        <option>Nome</option>
+                        <option>RG</option>
+                        <option>CPF</option>
+                    </select>
+                </div>
+                <div class="col-lg-6 form-group">
+                    <input type="text" class="form-control" id="valor" placeholder="Pesquisa de Usuário/Paciente" />
+                </div>
+                <div class="col-lg-3">
+                    <input type="button" value="Buscar" class="btn btn-primary" />
+                </div>
+            </div>
+        </fieldset>
+        <div class="row">
+            <div class="col-lg-12" id="dvPaciente">
+                @if (Model.Usuario != null)
+                {
+                    @Html.HiddenFor(a => a.Usuario.Id)
+                    <h2><span class="small">Paciente: </span>@Model.Usuario.Nome</h2>
+
+                }
+            </div>
+        </div>
+        <br />
+
+    if (ViewData["usuarios"] != null)
+    {
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="table-responsive scrollable" style="height:150px;">
+                            <table class="table table-bordered table-hover" id="usuarios">
+                                <thead>
+                                    <tr>
+                                        <th>Nome</th>
+                                        <th>CPF</th>
+                                        <th>Opções</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var row in ViewData["usuarios"] as List<SCGS.CORE.Entity.Usuario>)
+                                    {
+
+                                        <tr>
+                                            <td>@row.Nome</td>
+                                            <td>@row.CPF</td>
+                                            <td id="selecionar">
+                                                <a href="#" onclick="selecionar('@row.Id')">Selecionar</a>
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+            }
+          <fieldset>
+                <legend>Pesquisar de Patogenos</legend>
+                <div class="row">
+                    <div class="col-lg-3 form-group">
+                        <select id="campo" class="form-control">
+                            <option>Nome</option>
+                            <option>Código</option>
+                        </select>
+                    </div>
+                    <div class="col-lg-6 form-group">
+                        <input type="text" class="form-control" id="valor-patogeno" placeholder="Pesquisa de Patogeno" />
+                    </div>
+                    <div class="col-lg-3">
+                        <input type="button" value="Buscar" class="btn btn-primary" />
+                    </div>
+                </div>
+            </fieldset>
+
+            <div id="row">
+                <div class="col-lg-12" id="dvPatogeno">
+             
+                </div>
+            </div>
+            <br />
+    if (ViewData["patogeno"] != null)
+    {
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="table-responsive scrollable" style="height:150px;">
+                    <table class="table table-bordered table-hover" id="patogenos">
+                        <thead>
+                            <tr>
+                                <th>Código</th>
+                                <th>Nome</th>
+                                <th>Descrição</th>
+                                <th>Opções</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var row in ViewData["patogeno"] as List<SCGS.CORE.Entity.Patogeno>)
+                            {
+
+                                <tr>
+                                    <td>@row.codigo</td>
+                                    <td>@row.nome</td>
+                                    <td>@row.descricao</td>
+                                    <td id="selecionar">
+                                        <a href="#" onclick="selecionarPatogeno('@row.Id')">Selecionar</a>
+                                        @*@Html.ActionLink("Selecionar", "SelecionarUsuario", new { id = @row.Id }, new { @onclick = "selecionar();" })*@
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+    }
+
+<fieldset>
+                <legend>Dados do prontuario</legend>
+                <div class="row">
+                    @Html.HiddenFor(a => a.Id)
+                    <div class="col-lg-12">
+                        <label>Prescrição:</label><br />
+                        @Html.TextAreaFor(a => a.Pescricao, 7, 100, null)
+                    </div>
+                </div>
+              </fieldset>
+                    <div class="row">
+                        <div class="col-lg-3">
+                            <input class="btn btn-primary" style="width:90%;" valxue="Salvar" type="submit" />
+                        </div>
+                    </div>
+
+
+
+
+}
+
+ @section scripts{
+ @Scripts.Render("~/bundles/morris")
+
+<script>
+
+        $("#valor").keyup(buscarUsuario);
+   
+
+
+
+        function selecionar(Id) {
+            var campo = Id;
+            $.ajax({
+                url: "/Prontuario/Usuario/",
+                type: "post",
+                data: { "Id": campo },
+                success: function (data, textStatus, XMLHttpRequest) {
+                    $("#dvPaciente").html(
+                            "<h2><span class=\"small\">Paciente:</span>" + data.Nome + "</h2>"
+                        );
+                }
+            });
+
+        }
+
+
+                       function buscarUsuario() {
+                                var campo = $("#campo").val();
+                                var valor = $("#valor").val();
+                                $.ajax({
+                                    url: "/Consulta/PesquisarUsuario/",
+                                    type: "post",
+                                    data: { "campo": campo, "valor": valor },
+                                    dataType: "json",
+                                    error: function (XMLHttpRequest, textStatus, errorThrown) {
+
+                                        alert('Error: ' + textStatus + " msg: " + errorThrown);
+                                    },
+
+                                    success: function (data, textStatus, XMLHttpRequest) {
+                                        $("#usuarios").empty();
+                                        $("#usuarios").append(
+                                                   +"<table class='table table-bordered table-hover'>"
+                                                        + "<thead>"
+                                                            + "<tr>"
+                                                                + "<th>Nome</th>"
+                                                                + "<th>CPF</th>"
+                                                                + "<th>Opções</th>"
+                                                            + "</tr>"
+                                                                + "</thead>"
+                                                                 + "<tbody>"
+
+                                             );
+
+                                        for (var i = 0; i < data.length; i++) {
+                                            $("#usuarios").append(
+                                                "<tr>"
+                                                + "<td>" + data[i].Nome + "</td>"
+                                                + "<td>" + data[i].CPF + "</td>"
+                                                + "<td>"
+                                                + "<a href=\"#\" data-id=\"" + data[i].Id + "\">Selecionar</a>"
+                                                + "</td>"
+                                                + "</tr>"
+                                              );
+                                        }
+
+                                        $("#usuarios").append(
+                                             "</tbody>"
+                                            + "</table>");
+                                    }
+
+                                });
+
+
+                            }
+
+
+                            function selecionarPatogeno(Id) {
+                                var campo = Id;
+                                $.ajax({
+                                    url: "/Prontuario/Patogeno/",
+                                    type: "post",
+                                    data: { "Id": campo },
+                                    success: function (data, textStatus, XMLHttpRequest) {
+                                        $("#dvPatogeno").html(
+                                                "<h2><span class=\"small\">Patogeno: </span>" + data.nome + "</h2>"
+                                            );
+                                    }
+                                });
+
+
+
+                            }
+                        </script>
+ 
+ 
+ 
+ 
+ }

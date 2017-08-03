@@ -1,0 +1,81 @@
+﻿@{
+    ViewBag.Title = "Consulta de Usuario";
+}
+
+<div class="row">
+    <div class="col-lg-12">
+        <h1 class="page-header">
+            Cadastro de Usuario
+        </h1>
+        <ol class="breadcrumb">
+            <li>
+                <i class="fa fa-dashboard"></i><a href="/"> Principal</a>
+            </li>
+            <li class="active">
+                <i class="fa fa-bar-chart-o"></i>Consulta de Usuario
+            </li>
+        </ol>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-6">
+        <label for="pesquisar">Pesquisar:</label>
+        <input type="text" class="form-control" placeholder="Digite aqui para inciar a pesquisa" />
+    </div>
+    <div class="col-lg-6">
+
+        <label for="campo">Campo:</label>
+        <select id="campo" class="form-control">
+            <option>Matricula</option>
+            <option>Nome</option>
+            <option>RG</option>
+            <option>CPF</option>
+        </select>
+    </div>
+</div>
+<div class="row">
+    <form action="UsuarioForm">
+        <div class="col-lg-4">
+            <input type="submit" style="width:100%;" class="btn btn-primary" value="Novo" />
+        </div>
+    </form>
+</div>
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="table-responsive">
+            <table class="table table-bordered table-hover">
+                <thead>
+                    <tr>
+                        <th>Matriculo</th>
+                        <th>Contato</th>
+                        <th>Tipo Contato</th>
+                        <th>Contato</th>
+                        <th>Opções</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Email</td>
+                        <td>teste@teste.com</td>
+                        <td>Email</td>
+                        <td>teste@teste.com</td>
+                        <td>Editar</td>
+                    </tr>
+                    <tr>
+                        <td>Celular</td>
+                        <td>2689999991</td>
+                        <td>Email</td>
+                        <td>teste@teste.com</td>
+                        <td>Editar</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+@section scripts{
+    @Scripts.Render("~/bundles/morris")
+
+}

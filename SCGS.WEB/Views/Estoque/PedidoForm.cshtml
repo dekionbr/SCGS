@@ -1,0 +1,203 @@
+﻿@model SCGS.WEB.Models.PedidoModel
+@using SCGS.WEB.Helpers
+
+@{
+    ViewBag.Title = "Novo Pedido";
+}
+
+<div class="row">
+    <div class="col-lg-12">
+        <h1 class="page-header">
+            @ViewBag.Title
+        </h1>
+        <ol class="breadcrumb">
+            <li>
+                <i class="fa fa-dashboard"></i><a href="/"> Principal</a>
+            </li>
+            <li>
+                <i class="fa fa-bar-chart-o"></i><a href="Pedido">Pedido de Medicamento</a>
+            </li>
+            <li class="active">
+                <i class="fa fa-bar-chart-o"></i>Novo Pedido
+            </li>
+        </ol>
+    </div>
+</div>
+<div class="row">
+    <div class="col-lg-6 form-group">
+        @Html.HiddenFor(x => x.usuario.Id)
+        @Html.MyTextBoxFor(x => x.usuario.Nome, "Paciente", "", disabled: true)
+    </div>
+</div>
+
+<fieldset>
+    <legend>itens Selecionados:</legend>
+    @using (Html.BeginForm("SalvarConsulta", "Consulta", FormMethod.Post))
+    {
+        <div class="row">
+            <div class="col-lg-12 form-group">
+                <div id="selecionados"></div>
+                <div id="limpar">Sem itens</div>
+            </div>
+       </div>
+                    <div class="row">
+                    <div class="col-lg-2 form-group">
+                        <select id="campo" class="form-control">
+                            <option>Nome</option>
+                            <option>RG</option>
+                            <option>CPF</option>
+                        </select>
+                    </div>
+                    <div class="col-lg-6 form-group">
+                        <input type="text" class="form-control" onkeyup="#" id="valor" placeholder="Pesquisa no Estoque" />
+                    </div>
+                    <div class="col-lg-2 form-group">
+                        <input type="submit" style="width:100%;" onclick="#" class="btn btn-primary" value="Pesquisar" />
+                    </div>
+                </div>
+
+                if (Model != null)
+                {
+                if (Model.estoque.Count > 0)
+                {
+                <div class="row">
+                    <div class="col-lg-10 form-group">
+                        </div>
+                    <div class="col-lg-2 form-group">
+                        Quantidade: <input type="number" id="qtd" min="1" value="1" style="width:50px;" max="50" />
+                    </div>
+                    </div>
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="table-responsive scrollable">
+                            <table class="table table-bordered table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>Medicamento</th>
+                                        <th>Quantidade em estoque</th>
+                                        <th>Fabricante</th>
+                                        <th>Fornecedor</th>
+                                        <th>Descrição</th>
+                                        <th>Validade</th>
+                                        <th>Opções</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var row in Model.estoque)
+                                    {
+
+                                        <tr>
+                                            <td>@row.Nome</td>
+                                            <td>@row.Quantidade</td>
+                                            <td>@row.Fabricante</td>
+                                            <td>@row.Fornecedor</td>
+                                            <td>@row.Descricao</td>
+                                            <td>@row.DataValidade</td>
+                                              <td>
+                                                 <a href="#" onclick="selecionar('@row.Id', '@row.Descricao'); return false">Adicionar</a>
+                                             </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                }
+                else
+                {
+
+                <div class="row">
+                    <div class="col-lg-12">
+                        <p>Nenhuma Item disponível</p>
+                    </div>
+                </div>
+                }
+                }
+
+
+
+                <div class="row">
+                    <div class="col-lg-3">
+                        <input type="button" class="btn btn-primary" style="width:100%;" onclick="Salvar();" value="Salvar" />
+                    </div>
+                </div>
+
+
+
+
+
+                }
+    </fieldset>
+
+
+
+@section scripts{
+    @Scripts.Render("~/bundles/datepicker")
+    @Scripts.Render("~/bundles/morris")
+
+
+    <script>
+        var medicamentos = [];
+        $(function () {
+            $('.date').datepicker({
+                format: 'dd/mm/yyyy'
+            });
+
+
+        });
+
+
+
+        function selecionar(id, descricao){
+            medicamentos.push(id);
+
+            var qtd = $("#qtd").val();
+            $("#selecionados")
+            .append("<br /> "+descricao + " -  Quantidade: "+qtd);
+
+            $("#qtd").val(1);
+            $("#limpar").html("<a href='#' onclick='limpar()'>Limpar</a>");
+        }
+
+
+        function limpar(){  
+            $("#selecionados").empty();
+            $("#limpar").html("Sem itens");
+            medicamentos = [];
+        }
+
+
+
+
+
+        function Salvar(){
+
+
+            $.ajax({
+                url: "/Estoque/SalvarMedicamento/",
+                type: "post",
+                data: {  "medicamentos[]":medicamentos },
+                dataType: "post",
+
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                    alert('Error: ' + textStatus + " msg: " + errorThrown);
+                },
+
+                success: function (data, textStatus, XMLHttpRequest) {
+               
+                    
+                }
+            });
+
+        }
+
+
+
+
+
+
+    </script>
+
+}

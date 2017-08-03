@@ -1,0 +1,169 @@
+﻿@model SCGS.WEB.Models.MicroAreaModel
+@using SCGS.WEB.Helpers
+
+@{
+    ViewBag.Title = "Micro Area";
+}
+
+<div class="row">
+    <div class="col-lg-12">
+        <h1 class="page-header">
+            Cadastro de Micro Area
+        </h1>
+        <ol class="breadcrumb">
+            <li>
+                <i class="fa fa-dashboard"></i><a href="/"> Principal</a>
+            </li>
+            <li>
+                <i class="fa fa-bar-chart-o"></i><a href="MicroArea">Micro Area</a>
+            </li>
+            <li class="active">
+                <i class="fa fa-bar-chart-o"></i>Cadastro de Micro Area
+            </li>
+        </ol>
+    </div>
+</div>
+
+
+@using (Html.BeginForm("SalvarMicroArea", "Cadastros", FormMethod.Post)) { 
+<fieldset>
+    <legend>Dados da Micro Área</legend>
+    <div class="row">
+        @Html.HiddenFor(x => x.microarea.Id)
+        <div class="col-lg-6">
+            @Html.MyTextBoxFor(x => x.microarea.Descricao, "Descricão", "Digite a descrição")
+        </div>
+        <div class="col-lg-6">   
+             @Html.MyDropDownListForEntity(x => x.equipe, (List<SelectListItem>)ViewBag.Equipes, "Equipe", "Selecione uma Equipe")
+        </div>
+    </div>  
+    <br />
+</fieldset>
+
+<fieldset>
+    <legend>Endereço da Micro Área</legend>
+    <div class="row">
+        @Html.HiddenFor(x => x.endereco.Id)
+             <div class="col-lg-6">
+            @Html.MyTextBoxFor(x => x.endereco.Logradouro, "Logradouro", "Digite o Logradouro")
+            <br />
+        </div>
+        <div class="col-lg-6">
+            @Html.MyDropDownListFor(x => x.endereco.TipoLogradouro, "Tipo Logradouro", "Selecione o Tipo de Logradouro")
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-6">
+            @Html.MyTextBoxFor(x => x.endereco.Numero, "Numero", "Digite o Numero")
+            <br />
+        </div>
+        <div class="col-lg-6">
+            @Html.MyTextBoxFor(x => x.endereco.CEP, "CEP", "Digite o Cep")
+            <br />
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-6">
+            @Html.MyDropDownListForEntity(x => x.estado, (List<SelectListItem>)ViewBag.Estados, "Estado", "Selecione um Estado")
+            <br />
+        </div>
+        <div class="col-lg-6">
+            @Html.MyDropDownListForEntity(x => x.cidade, (List<SelectListItem>)ViewBag.Cidades, "Cidade", " ")
+            <br />
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-6">
+            @Html.MyTextBoxFor(x => x.endereco.Complemento, "Complemento", "Digite o Complemento")
+            <br />
+        </div>
+    </div>
+</fieldset>
+<br />
+<div class="row">
+    <div class="col-lg-3">
+        <input type="submit" value="Salvar" class="btn btn-primary" style="width:100%;" />
+    </div>
+</div> 
+}
+<br />
+<div class="row">
+    <div class="col-lg-12">
+        <div class="table-responsive">
+            <table class="table table-bordered table-hover">
+                <thead>
+                    <tr>
+                        <th>Tipo Logradouro</th>
+                        <th>Logradouro</th>
+                        <th>Número</th>
+                        <th>CEP</th>
+                        <th>Cidade</th>
+                        <th>Complemento</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Email</td>
+                        <td>teste@teste.com</td>
+                        <td>Editar</td>
+                        <td>Email</td>
+                        <td>teste@teste.com</td>
+                        <td>Editar</td>
+                    </tr>
+                    <tr>
+                        <td>Celular</td>
+                        <td>2689999991</td>
+                        <td>Editar</td>
+                        <td>Email</td>
+                        <td>teste@teste.com</td>
+                        <td>Editar</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<br />
+<div class="row">
+    <div class="col-lg-3">
+        <button class="btn btn-success" style="width:100%;">Nova Micro Área</button>
+    </div>
+    <div class="col-lg-3">
+        <button class="btn btn-primary" style="width:100%;">Salvar</button>
+    </div>
+</div>
+
+
+
+@section scripts{
+    @Scripts.Render("~/bundles/morris")
+
+
+<script>
+    $(document).ready(function () {
+        //Coloque aqui o id do primeiro dropdownlist
+        $('#estado').change(function () {
+            //obtém o valor selecionado
+            var id = $(this).find(":selected").val();
+            $.ajax({
+                url: "/Cadastros/PreencherCidades/" + id,
+                type: "get",
+                dataType: "json",
+                success: function (data) {
+                    $("#cidade").empty();
+                    $("#cidade").append('<option value>Selecione uma Cidade</option>');
+                    $.each(data, function (index, element) {
+                        $("#cidade").append('<option value="' + element.Id + '">' + element.Nome + '</option>');
+                    });
+                }
+            });
+        });
+
+    });
+</script>
+
+
+
+
+
+}

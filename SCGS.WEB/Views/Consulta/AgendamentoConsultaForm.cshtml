@@ -1,0 +1,91 @@
+﻿@model SCGS.WEB.Models.AgendamentoConsultaModel
+@using SCGS.WEB.Helpers
+
+@{
+    ViewBag.Title = "Agendar Consulta";
+}
+
+<div class="row">
+    <div class="col-lg-12">
+        <h1 class="page-header">
+            Agendar Consulta
+        </h1>
+        <ol class="breadcrumb">
+            <li>
+                <i class="fa fa-dashboard"></i><a href="/"> Principal</a>
+            </li>
+            <li>
+                <i class="fa fa-bar-chart-o"></i><a href="AgendamentoConsulta">Agendamento Consulta</a>
+            </li>
+            <li class="active">
+                <i class="fa fa-bar-chart-o"></i>Agendar Consulta
+            </li>
+        </ol>
+    </div>
+</div>
+
+<fieldset>
+    <legend>Dados do Agendamento</legend>
+    @using (Html.BeginForm("SalvarConsulta", "Consulta", FormMethod.Post))
+    {
+        <div class="row">
+            <div class="col-lg-6 form-group">
+                @Html.HiddenFor(x => x.usuario.Id)
+                @Html.MyTextBoxFor(x => x.usuario.Nome, "Paciente", "", disabled: true)
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-6 form-group">
+                @Html.MyTextBoxFor(x => x.consulta.DataConsulta, "Data da Consulta","", new { @maxlength = "16", @class= "form-control date" })
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-6 form-group">
+                @Html.MyDropDownListFor(x => x.consulta.Turno, "Turno", "")
+             </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-6 form-group">
+                @Html.MyDropDownListFor(x => x.consulta.Prioridade, "Prioridade", "")
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-6 form-group">
+                    @Html.MyDropDownListForEntity(a=>a.medico, (List<SelectListItem>)ViewBag.Medicos, "Medico", "")
+              </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-6 form-group">
+                @Html.TextAreaFor(a => a.consulta.obs, new { @cols = "100", @rows = "5", @placeholder = "Observações sobre a consulta", @class="form-control" })
+             </div>
+        </div>
+
+        <div class="row">
+            <div class="col-lg-3">
+                <input type="submit" class="btn btn-primary" style="width:100%;" value="Salvar"/>
+            </div>
+        </div>
+
+    }
+</fieldset>
+
+
+
+@section scripts{
+@Scripts.Render("~/bundles/datepicker")
+@Scripts.Render("~/bundles/morris")
+ 
+ 
+    <script>
+
+        $(function () {
+            $('.date').datepicker({
+                format: 'dd/mm/yyyy'
+            });
+
+
+        });
+
+    </script>
+ 
+ }

@@ -1,0 +1,109 @@
+﻿@model List<SCGS.CORE.Entity.Estoque>
+
+
+@{
+    ViewBag.Title = "Estoque de Medicamentos";
+}
+
+<div class="row">
+    <div class="col-lg-12">
+        <h1 class="page-header">
+            Estoque de Item Hospitalar
+        </h1>
+        <ol class="breadcrumb">
+            <li>
+                <i class="fa fa-dashboard"></i><a href="/"> Principal</a>
+            </li>
+            <li class="active">
+                <i class="fa fa-bar-chart-o"></i>Estoque de Item Hospitalar
+            </li>
+        </ol>
+    </div>
+</div>
+
+
+@using (Html.BeginForm("Filtrar", "Cadastros", FormMethod.Post))
+{
+<div class="row">
+    <div class="col-lg-2 form-group">
+        <select id="campo" class="form-control">
+            <option>Nome</option>
+            <option>RG</option>
+            <option>CPF</option>
+        </select>
+    </div>
+    <div class="col-lg-6 form-group">
+        <input type="text" class="form-control" onkeyup="#" id="valor" placeholder="Pesquisa no Estoque" />
+    </div>
+    <div class="col-lg-2 form-group">
+        <input type="submit" style="width:100%;" onclick="#" class="btn btn-primary" value="Pesquisar" />
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-4 form-group">
+        @Html.ActionLink("Novo Item", "EstoqueForm", null, new { @class = "btn btn-success", @role = "button", @style="width:100%;" })
+     
+    </div>
+</div>
+}   
+ <br />
+
+
+
+    @if (Model.Count > 0)
+    {
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="table-responsive scrollable">
+                    <table class="table table-bordered table-hover">
+                        <thead>
+                            <tr>
+                                <th>Medicamento</th>
+                                <th>Quantidade</th>
+                                <th>Fabricante</th>
+                                <th>Fornecedor</th>
+                                <th>Descrição</th>
+                                <th>Validade</th>
+                                <th>Opções</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var row in Model)
+                            {
+
+                                <tr>
+                                    <td>@row.Nome</td>
+                                    <td>@row.Quantidade</td>
+                                    <td>@row.Fabricante</td>
+                                    <td>@row.Fornecedor</td>
+                                    <td>@row.Descricao</td>
+                                    <td>@row.DataValidade</td>
+                                    <td>
+                                        @Html.ActionLink("Editar", "EditarEstoque", new { id = @row.Id })
+                                        <span>| </span>
+                                        @Html.ActionLink("Excluir", "DeletarEstoque", new { id = @row.Id }, new { @onclick = "return confirm('Deseja Realmente deletar esse registro?');" })
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+    }
+    else
+    {
+
+        <div class="row">
+            <div class="col-lg-12">
+                <p>Nenhuma Item disponível</p>
+            </div>
+        </div>
+    }
+
+    @section scripts{
+        @Scripts.Render("~/bundles/morris")
+
+    }

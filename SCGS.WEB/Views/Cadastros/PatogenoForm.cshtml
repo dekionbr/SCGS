@@ -1,0 +1,57 @@
+﻿@model SCGS.CORE.Entity.Patogeno
+@using SCGS.WEB.Helpers
+
+@{
+    ViewBag.Title = "Patogeno";
+
+}
+
+<div class="row">
+    <div class="col-lg-12">
+        <h1 class="page-header">
+            Cadastro de Patogeno
+        </h1>
+        <ol class="breadcrumb">
+            <li>
+                <i class="fa fa-dashboard"></i><a href="/"> Principal</a>
+            </li>
+            <li>
+                <i class="fa fa-bar-chart-o"></i><a href="Patogeno">Patogeno</a>
+            </li>
+            <li class="active">
+                <i class="fa fa-bar-chart-o"></i>Cadastro de Patogeno
+            </li>
+        </ol>
+    </div>
+</div>
+
+@using (Html.BeginForm("SalvarPatogeno", "Cadastros", FormMethod.Post))
+{
+    <fieldset>
+        <legend>Dados da Patogeno</legend>
+        <div class="row">
+            @Html.HiddenFor(a => a.Id)
+            <div class="col-lg-4">
+                @Html.MyTextBoxFor(a => a.codigo, "Código","Digite o código" )
+                <br />
+            </div>
+            <div class="col-lg-4">
+                @Html.MyTextBoxFor(a => a.nome, "Nome", "Digite a nome")
+                <br />
+            </div>
+            <div class="col-lg-4">
+                @Html.MyTextBoxFor(a => a.descricao, "Descrição", "Digite a descrição")
+                <br />
+            </div>
+        </div>
+        <br />
+    </fieldset>
+    <div class="row">
+        <div class="col-lg-3">
+            <input type="submit" value="salvar" class="btn btn-primary" style="width:100%;" />
+        </div>
+    </div>
+}
+@section scripts{
+    @Scripts.Render("~/bundles/morris")
+}

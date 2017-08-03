@@ -1,0 +1,71 @@
+﻿@{
+    var equipes = ViewData["equipes"] as List<Equipe>;
+    var funcionarios = ViewData["funcionarios"] as List<Funcionario>;
+}
+
+
+<div class="row">
+    @if (equipes.Count > 0)
+    {
+        <div class="col-lg-3">
+            <select class="form-control ui-auto-unidade" id="equipe">
+
+                <option value="">Selecione a equipe</option>
+
+                @foreach (var row in equipes)
+                {
+                    <option value="@row.Id">@row.Nome</option>
+
+                }
+            </select>
+        </div>
+    }
+
+    @if (funcionarios.Count > 0)
+    {
+        <div class="col-lg-3">
+            <select class="form-control ui-auto-unidade" id="funcionario">
+                <option value="">Selecione o profissional</option>
+                @foreach (Funcionario row in funcionarios)
+                {
+                    <option value="@row.Id">
+                        @if (row.TipoFuncionario == TipoFuncionario.Medico)
+                        {
+                            Html.Raw("Dr(a) " + row.Nome);
+                        }
+                        else
+                        {
+                            Html.Raw(row.Nome);
+                        }
+                    </option>
+                }
+            </select>
+        </div>
+    }
+
+    <div class="col-lg-2">
+        <input type="text" class="form-control date" placeholder="Data Inicial" id="dtini" />
+    </div>
+
+    <div class="col-lg-2 form-group">
+        <input type="text" class="form-control date" placeholder="Data Final" id="dtfim" />
+    </div>
+
+    <div class="col-lg-2 form-group">
+        <select class="form-control ui-autocomplete" id="corte" required>
+            <option value="">Corte</option>
+            <option value="0">Semanal</option>
+            <option value="1">Mensal</option>
+            <option value="2">Semestral</option>
+            <option value="3">Anual</option>
+        </select>
+    </div>
+
+</div>
+
+<div class="row">    
+    <div class="col-lg-1 col-lg-offset-11">
+        <input id="submit" type="button" class="btn btn-primary col-lg-12" value="Visualizar" />
+    </div>
+</div>
+

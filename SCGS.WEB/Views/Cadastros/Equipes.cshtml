@@ -1,0 +1,98 @@
+﻿@model List<SCGS.CORE.Entity.Equipe>
+
+@{
+    ViewBag.Title = "Consulta de Equipe";
+}
+
+<div class="row">
+    <div class="col-lg-12">
+        <h1 class="page-header">
+            Cadastro de Equipe
+        </h1>
+        <ol class="breadcrumb">
+            <li>
+                <a href="/">Principal</a>
+            </li>
+            <li class="active">
+                Consulta de Equipe
+            </li>
+        </ol>
+    </div>
+</div>
+
+    @using (Html.BeginForm("Filtrar", "Cadastros", FormMethod.Post))
+    {
+
+        <div class="row">
+            <div class="col-md-2 form-group">
+                <select id="campo" class="form-control">
+                    <option>Nome</option>
+                    <option>Descrição</option>
+                </select>
+            </div>
+
+            <div class=" col-md-6 form-group">
+                <input type="text" class="form-control" placeholder="Digite aqui para inciar a pesquisa" title="Digite aqui para inciar a pesquisa" />
+            </div>
+            <div class=" col-md-2 form-group">
+                <input type="submit" class="btn btn-primary" style="width:90%" value="Pesquisar" />
+            </div>
+        </div>
+            <div class="row">
+                <div class="col-md-4 form-group">
+                    @Html.ActionLink("Novo", "EquipeForm", null, new { @class = "btn btn-success", @role = "button", @style = "width: 90%;" })
+                </div>
+            </div>
+    }
+        
+
+@if (Model.Count > 0)
+{
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="table-responsive table scrollable">
+                <table class="table table-bordered table-hover">
+                    <thead>
+                        <tr>
+                            <th>Nome</th>
+                            <th>Descrição</th>
+                            <th>Enfermeiro</th>
+                            <th>Enfermeiro Técnico</th>
+                            <th>Médico</th>
+                             <th>Opções</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var row in Model)
+                        {
+                            <tr>
+                                <td>@row.Nome</td>
+                                <td>@row.Descricao</td>
+                                <td>@row.Enfermeiro.Nome</td>
+                                <td>@row.EnfermeiroTecnico.Nome</td>
+                                <td>@row.Medico.Nome</td>
+                                <td>
+                                    @Html.ActionLink("Editar", "EditarEquipe", new { id = @row.Id })
+                                    <span>| </span>
+                                    @Html.ActionLink("Excluir", "DeletarEquipe", new { id = @row.Id }, new { @onclick = "return confirm('Deseja Realmente deletar esse registro?');" })
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+}
+else
+{
+    <div class="row">
+        <div class="col-lg-12">
+            <p>Nenhuma Equipe disponível</p>
+        </div>
+    </div>
+}
+
+@section scripts{
+    @Scripts.Render("~/bundles/morris")
+}

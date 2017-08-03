@@ -1,0 +1,128 @@
+﻿@model List<SCGS.CORE.Entity.Consulta>
+@{
+    ViewBag.Title = "Consultas";
+}
+
+<div class="row">
+    <div class="col-lg-12">
+        <h1 class="page-header">
+            Consultas
+        </h1>
+        <ol class="breadcrumb">
+            <li>
+                <i class="fa fa-dashboard"></i><a href="/"> Principal</a>
+            </li>
+            <li class="active">
+                <i class="fa fa-bar-chart-o"></i>Consultas
+            </li>
+        </ol>
+    </div>
+</div>
+
+@using (Html.BeginForm("Filtrar", "Consulta", FormMethod.Post))
+{
+    <label>Filtro Consulta</label>
+    <div class="row">
+        <div class=" col-md-2 form-group">
+            <input type="text" class="form-control" maxlength="10" onkeyup="dataMask(this)" placeholder="Data de..." />
+        </div>
+        <div class=" col-md-2 form-group">
+            <input type="text" class="form-control" maxlength="10" onkeyup="dataMask(this)" placeholder="Data até..." />
+        </div>
+        <div class=" col-md-2 form-group">
+            <input type="button" class="btn btn-primary form-group" value="Ok" />
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-4 form-group">
+            @Html.ActionLink("Agendar Nova Consulta", "AgendamentoConsulta", null, new { @class = "btn btn-success", @role = "button", @style = "width: 90%;" })
+        </div>
+    </div>
+}
+
+@if (Model.Count > 0)
+{
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="table-responsive scrollable">
+                <table class="table table-bordered table-hover">
+                    <thead>
+                        <tr>
+                            <th>Médico</th>
+                            <th>Usuário</th>
+                            <th>Data da Consulta</th>
+                            <th>Prioridade</th>
+                            <th>Confirmado</th>
+                            <th>Turno</th>
+                            <th>Opções</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var row in Model)
+                        {
+
+                            <tr>
+                                <td>@row.medico.Nome</td>
+                                <td>@row.Usuario.Nome</td>
+                                <td>@row.DataConsulta</td>
+                                <td>@row.Prioridade</td>
+                                @if (@row.Confirmado == false)
+                                {
+                                    <td style="color:red;">Não</td>
+                                }
+                                else
+                                {
+                                    <td style="color:blue;">Sim</td>
+
+                                }
+                                <td>@row.Turno</td>
+                                <td>
+                                    @Html.ActionLink("Cancelar Consulta", "CancelarConsulta", new { id = @row.Id }, new { @onclick = "return confirm('Deseja Cancelar essa consulta?');" })
+                                    <span>| </span>
+                                    @Html.ActionLink("Confirmar Consulta", "ConfirmarConsulta", new { id = @row.Id }, new { @onclick = "return confirm('Deseja confirmar essa consulta?');" })
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+}
+else
+{
+
+    <div class="row">
+        <div class="col-lg-12">
+            <p>Nenhuma Consulta disponível</p>
+        </div>
+    </div>
+}
+
+@section scripts{
+    @Scripts.Render("~/bundles/morris")
+
+
+
+    <script>
+     function dataMask(objeto) {
+         var campo = eval(objeto);
+         if (campo.value.length == 2){
+             campo.value = campo.value + "/";
+             return true;
+         } else if(campo.value.length == 5) {
+             campo.value = campo.value + "/";
+             if (campo.value.indexOf("/") == 1)
+                 campo.value = "";
+             return true;
+         }
+     }
+
+
+
+    </script>
+
+
+
+}
