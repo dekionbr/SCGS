@@ -1,0 +1,262 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1" GroupingSetting="Alphabetical" MembersFormat="NameAndType">
+  <Class Name="SCGS.CORE.Entity.Cidade">
+    <Position X="6" Y="9.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAg=</HashCode>
+      <FileName>Entity\Cidade.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Estado" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="SCGS.CORE.Entity.Contato">
+    <Position X="7.25" Y="1" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAEAAAAAAQ=</HashCode>
+      <FileName>Entity\Contato.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Usuario" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="SCGS.CORE.Entity.CR">
+    <Position X="15.5" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAAAAAAAAAg=</HashCode>
+      <FileName>Entity\CR.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SCGS.CORE.Entity.Endereco">
+    <Position X="2.25" Y="5.25" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAABAACIAAAAAAACAAAAAAAAAAAAAAAADAAA=</HashCode>
+      <FileName>Entity\Endereco.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Cidade" />
+    </ShowAsAssociation>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="SCGS.CORE.Entity.Equipe">
+    <Position X="16.25" Y="7.5" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAEAAAAAAQABAAAAgAAAgAAAAAAAAAAAAAAAAAEAAAA=</HashCode>
+      <FileName>Entity\Equipe.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="EnfermeiroTecnico" />
+      <Property Name="Medico" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="SCGS.CORE.Entity.Estado">
+    <Position X="6" Y="14.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAAAAEAAAA=</HashCode>
+      <FileName>Entity\Estado.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SCGS.CORE.Entity.Funcionario">
+    <Position X="12" Y="4" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAgEABAACIAAAAAAACAAACAAAAgAAAAAAADEAA=</HashCode>
+      <FileName>Entity\Funcionario.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="CR" />
+    </ShowAsAssociation>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="SCGS.CORE.Entity.MicroArea">
+    <Position X="12.25" Y="7.75" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAABAAAAAAEAAAAAAAAAAAAAAAAAAAAAEAA=</HashCode>
+      <FileName>Entity\MicroArea.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Agente" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="SCGS.CORE.Entity.Pessoa">
+    <Position X="10.5" Y="0.5" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAIAEAAAAAAgAAAQAACAACIAAAAAAAAAAAEIAAA=</HashCode>
+      <FileName>Entity\Pessoa.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SCGS.CORE.Entity.SistemaExterno">
+    <Position X="1.5" Y="8.5" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAABAACIAAAAAAACAACAIAAAAAAAQAAADEAA=</HashCode>
+      <FileName>Entity\SistemaExterno.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Cidade" />
+    </ShowAsAssociation>
+    <Lollipop Position="0.1" />
+  </Class>
+  <Class Name="SCGS.CORE.Entity.Unidade">
+    <Position X="11.75" Y="10.5" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAQAAAABAACIAAAAAAACAAAAIAAAAAAAAAAADEAA=</HashCode>
+      <FileName>Entity\Unidade.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Gerente" />
+      <Property Name="Cidade" />
+    </ShowAsAssociation>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="SCGS.CORE.Entity.Usuario">
+    <Position X="8.75" Y="4" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAMAA=</HashCode>
+      <FileName>Entity\Usuario.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Endereco" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="SCGS.CORE.Entity.UsuarioFiliacao">
+    <Position X="6" Y="4" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AABEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Entity\UsuarioFiliacao.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="UsuarioFiliado" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="SCGS.CORE.Entity.Prontuario">
+    <Position X="13.5" Y="1.5" Width="2.25" />
+    <AssociationLine Name="Usuario" Type="SCGS.CORE.Entity.Usuario" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="13.5" Y="2.213" />
+        <Point X="13.125" Y="2.213" />
+        <Point X="13.125" Y="3.625" />
+        <Point X="10.875" Y="3.625" />
+        <Point X="10.875" Y="4" />
+      </Path>
+    </AssociationLine>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAg=</HashCode>
+      <FileName>Entity\Prontuario.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Usuario" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="SCGS.CORE.Entity.Consulta">
+    <Position X="4" Y="0.75" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AIAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAEBAAAEAA=</HashCode>
+      <FileName>Entity\Consulta.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Usuario" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="SCGS.CORE.Entity.Pedido">
+    <Position X="9.25" Y="6.75" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAQABAAAAAAAEAAAAAEAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Entity\Pedido.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Agente" />
+      <Property Name="Prontuario" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="SCGS.CORE.Entity.Estoque" BaseTypeListCollapsed="true">
+    <Position X="8.5" Y="9.5" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAACIABAAAAAAAAAQAAAAAQAAAAAAATAEEABAA=</HashCode>
+      <FileName>Entity\Estoque.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Farmaceutico" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="SCGS.CORE.Entity.ItemPedido" BaseTypeListCollapsed="true">
+    <Position X="6.5" Y="6.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAgAAAAAAEAAAAAAAAAAAAAAAAAAAAQAAAAAAA=</HashCode>
+      <FileName>Entity\ItemPedido.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Pedido" />
+      <Property Name="Estoque" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="SCGS.CORE.Entity.Meta" Collapsed="true">
+    <Position X="19.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAABAAAAAAAAAEAAQAAAQAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Entity\Meta.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Interface Name="SCGS.CORE.Entity.IEndereco" Collapsed="true">
+    <Position X="19.5" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAABAACIAAAAAAACAAAAAAAAAAAAAAAADAAA=</HashCode>
+      <FileName>Entity\IEndereco.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Enum Name="SCGS.CORE.Entity.TipoContato" Collapsed="true">
+    <Position X="19.5" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAEAAAAAgCAAAAAAAAAAAAgAAAAAAAgAAABAABgAAAA=</HashCode>
+      <FileName>Entity\TipoContato.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="SCGS.CORE.Entity.TipoCR" Collapsed="true">
+    <Position X="19.5" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAACAAgAAAAAAAAAAAAA=</HashCode>
+      <FileName>Entity\TipoCR.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="SCGS.CORE.Entity.TipoFuncionario" Collapsed="true">
+    <Position X="19.5" Y="7.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAEAAQAAAYAAAAAAAAEAgAAAAAAAAAABAAAAAAAAAAA=</HashCode>
+      <FileName>Entity\TipoFuncionario.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="SCGS.CORE.Entity.TipoLogradrouro" Collapsed="true">
+    <Position X="19.5" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>QQlIAEABAAICBAQAMqQBEAAmGQAAYAQEISCAgQBAGJI=</HashCode>
+      <FileName>Entity\TipoLogradrouro.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="SCGS.CORE.Entity.TipoFiliado" Collapsed="true">
+    <Position X="19.5" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAABAAAgAAAAAAAAAAAAAAAAAIAAAAAAAAAAA=</HashCode>
+      <FileName>Entity\TipoFiliado.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="SCGS.CORE.Turno" Collapsed="true">
+    <Position X="19.5" Y="8" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAgAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Entity\Turno.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="SCGS.CORE.TipoPrioridade" Collapsed="true">
+    <Position X="19.5" Y="4.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AABAAAAAAAAAAAAACAAAAAAAgAAAAAAAAAAAAAAAAAQ=</HashCode>
+      <FileName>Entity\TipoPrioridade.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="SCGS.CORE.Entity.TipoEstoque" Collapsed="true">
+    <Position X="19.5" Y="5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AIAAAAAAIAAAAAAAAAAAAAAAAAEAAAQAAAAACAAAAAA=</HashCode>
+      <FileName>Entity\TipoEstoque.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>
